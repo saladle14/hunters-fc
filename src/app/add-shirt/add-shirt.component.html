@@ -1,0 +1,89 @@
+<h2>Form đăng ký làm áo</h2>
+<form nz-form [formGroup]="addShirtForm" (ngSubmit)="submitForm()">
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" [nzSpan]="7" nzRequired>Họ Tên</nz-form-label>
+    <nz-form-control [nzSm]="8" [nzXs]="24" [nzSpan]="8" nzErrorTip="Họ tên không được bỏ trống!">
+      <input nz-input formControlName="userName" placeholder="Vd: Lê Đức Huy" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" [nzSpan]="7" nzRequired>Size áo</nz-form-label>
+    <nz-form-control [nzSm]="8" [nzXs]="24"
+      [nzSpan]="8"
+      nzErrorTip="Size áo không được bỏ trống!"
+      nzValidatingTip="test..."
+    >
+      <!-- <input nz-input formControlName="shirtSize" placeholder="Chọn cỡ áo của bạn"/> -->
+      <nz-select
+        formControlName="shirtSize"
+        name="select-size"
+        nzPlaceHolder="Chọn kích thước áo"
+      >
+        <nz-option nzValue="S" nzLabel="S"></nz-option>
+        <nz-option nzValue="M" nzLabel="M"></nz-option>
+        <nz-option nzValue="L" nzLabel="L"></nz-option>
+        <nz-option nzValue="XL" nzLabel="XL"></nz-option>
+        <nz-option nzValue="XXL" nzLabel="XXL"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" [nzSpan]="7">Số áo</nz-form-label>
+    <nz-form-control [nzSm]="8" [nzXs]="24" [nzSpan]="8">
+      <input
+        #inputElement
+        nz-input
+        formControlName="id"
+        placeholder="Nếu để trống, bạn sẽ được chọn 1 số áo bất kỳ"
+        [ngModel]="inputShirtNumber"
+        (ngModelChange)="onChange($event)"
+        (blur)="onBlur()"
+      />
+    </nz-form-control>
+    <a class="checkShirtNum" (click)="checkExistedShirtNumber(inputShirtNumber); clickCheck()"
+      >Kiểm tra</a
+    >
+    <nz-alert
+      *ngIf="isShirtNumberExist"
+      nzType="error"
+      nzShowIcon
+      nzMessage="Số áo đã tồn tại"
+    ></nz-alert>
+
+    <nz-alert
+      class="mt-2"
+      *ngIf="
+        !isShirtNumberExist &&
+        inputShirtNumber !== null &&
+        clickedCheck === true
+      "
+      nzType="success"
+      nzShowIcon
+      nzMessage="Số áo rất đẹp và phù hợp với bạn"
+    ></nz-alert>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" [nzSpan]="7">Tên in trên áo</nz-form-label>
+    <nz-form-control [nzSm]="8" [nzXs]="24" [nzSpan]="8">
+      <input
+        nz-input
+        formControlName="shirtName"
+        placeholder="Nếu để trống, áo bạn sẽ không in tên gì"
+      />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" [nzSpan]="7" nzRequired>Ngày đóng tiền áo</nz-form-label>
+    <nz-form-control [nzSm]="8" [nzXs]="24" [nzSpan]="8">
+      <nz-date-picker formControlName="payDate" [nzDisabledDate]="disabledDate" nzPlaceHolder="Chọn ngày" ></nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzOffset]="7" [nzSpan]="12">
+      <button nz-button nzType="primary" [disabled]="isDisableSubmit">Gửi đăng ký</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

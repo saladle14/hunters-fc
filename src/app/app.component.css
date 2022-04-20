@@ -1,0 +1,11 @@
+img {
+  width: 50px;
+  display: inline-block;
+  float: left;
+  margin-right: 10px;
+}
+
+.heading-logo {
+  display: block;
+  margin: 10px;
+}
