@@ -1,23 +1,66 @@
-<div class="heading-logo">
-  <img src="https://i.postimg.cc/8zV5L91p/Hunters.png" alt="Fc.Hunters">
-  <h1>FC. HUNTERS</h1>
-
-</div>
-<ul nz-menu nzMode="horizontal">
-  <li nz-menu-item>
-    <a routerLink="add"></a>
-    <i nz-icon nzType="plus-circle"></i>
-    Đăng ký áo
-  </li>
-  <li nz-menu-item>
-    <a routerLink="list-shirts"></a>
-    <i nz-icon nzType="ordered-list"></i>
-    Danh sách làm áo
-  </li>
-</ul>
-
-<app-footer>
-
-</app-footer>
-
-<router-outlet></router-outlet>
+<nz-layout class="app-layout">
+  <nz-sider
+    class="menu-sidebar"
+    nzCollapsible
+    nzWidth="256px"
+    nzBreakpoint="md"
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null"
+  >
+    <div class="sidebar-logo">
+      <a href="#">
+        <img src="https://i.postimg.cc/8zV5L91p/Hunters.png" alt="logo" />
+        <h1>FC.HUNTERS</h1>
+      </a>
+    </div>
+    <ul
+      nz-menu
+      nzTheme="dark"
+      nzMode="inline"
+      [nzInlineCollapsed]="isCollapsed"
+    >
+      <li nz-submenu nzTitle="Trang chủ" nzIcon="home">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="add">
+              <i nz-icon nzType="plus-circle"></i>
+              Đăng ký áo
+            </a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="list-shirts">
+              <i nz-icon nzType="unordered-list" nzTheme="outline"></i>
+              Danh sách làm áo
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="Danh sách cầu thủ" nzIcon="team">
+        <ul>
+          <li nz-menu-item>Đang phát triển</li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
+        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+          <i
+            class="trigger"
+            nz-icon
+            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+          ></i>
+        </span>
+      </div>
+    </nz-header>
+    <nz-content>
+      <nz-breadcrumb>
+        <nz-breadcrumb-item>Trang chủ</nz-breadcrumb-item>
+        <nz-breadcrumb-item>Áo đấu 2022</nz-breadcrumb-item>
+      </nz-breadcrumb>
+      <div class="inner-content"><router-outlet></router-outlet></div>
+    </nz-content>
+    <nz-footer>Copyright ©2022 Implement By <a href="https://www.facebook.com/groups/1807551722792283" target="_blank">Hunters</a></nz-footer>
+  </nz-layout>
+</nz-layout>
