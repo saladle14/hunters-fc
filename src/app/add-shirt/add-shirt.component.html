@@ -13,7 +13,6 @@
       nzErrorTip="Size áo không được bỏ trống!"
       nzValidatingTip="test..."
     >
-      <!-- <input nz-input formControlName="shirtSize" placeholder="Chọn cỡ áo của bạn"/> -->
       <nz-select
         formControlName="shirtSize"
         name="select-size"
@@ -26,6 +25,8 @@
         <nz-option nzValue="XXL" nzLabel="XXL"></nz-option>
       </nz-select>
     </nz-form-control>
+    <a class="checkShirtNum" (click)="onClickWatchSizeTable()"
+      >Xem bảng size</a>
   </nz-form-item>
 
   <nz-form-item>
@@ -87,3 +88,4 @@
     </nz-form-control>
   </nz-form-item>
 </form>
+

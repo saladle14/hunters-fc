@@ -3,6 +3,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { differenceInCalendarDays, setHours } from 'date-fns';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { NzImageService } from 'ng-zorro-antd/image';
 
 @Component({
   selector: 'app-add-shirt',
@@ -19,6 +21,7 @@ export class AddShirtComponent implements OnInit {
   shirts :any;
   clickedCheck: boolean = false;
   isDisableSubmit: boolean = false;
+  isVisibleSizeTable = false;
 
   today = new Date();
 
@@ -26,6 +29,8 @@ export class AddShirtComponent implements OnInit {
     private shirt: ShirtService,
     private fb: FormBuilder,
     private message: NzMessageService,
+    private modal: NzModalService,
+    private nzImageService: NzImageService,
   ) {
     this.addShirtForm = this.fb.group({
       userName: [null, [Validators.required]],
@@ -116,5 +121,56 @@ export class AddShirtComponent implements OnInit {
     // Can not select days before today and today
     return differenceInCalendarDays(current, this.today) < 0;
   };
+
+  // ----- MODAL -----
+  showModal(): void {
+    this.isVisibleSizeTable = true;
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isVisibleSizeTable = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisibleSizeTable = false;
+  }
+  createCustomButtonModal(): void {
+    const images = [
+      {
+        src: 'https://img.alicdn.com/tfs/TB1g.mWZAL0gK0jSZFtXXXQCXXa-200-200.svg',
+        width: '200px',
+        height: '200px',
+        alt: 'ng-zorro'
+      },
+    ];
+    const test = 'huy';
+    const modal: NzModalRef = this.modal.create({
+      nzTitle: 'Bảng size áo bóng đá Fc.Hunters',
+      nzContent: test,
+
+      nzFooter: [
+        {
+          label: 'Close',
+          type: 'primary',
+          shape: 'round',
+          onClick: () => modal.destroy()
+        },
+      ]
+    });
+  }
+
+  onClickWatchSizeTable() {
+    const images = [
+      {
+        src: 'https://i.postimg.cc/2S06mdJW/2469bdbb-2b18-43b3-a9cf-248a72f7cc9c.jpg',
+        width: '300px',
+        height: '300px',
+        alt: 'ng-zorro'
+      },
+    ];
+    this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+  }
 
 }
