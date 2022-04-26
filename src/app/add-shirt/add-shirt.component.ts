@@ -21,7 +21,7 @@ export class AddShirtComponent implements OnInit {
   shirts :any;
   clickedCheck: boolean = false;
   isDisableSubmit: boolean = false;
-  isVisibleSizeTable = false;
+  isVisiblePayMethod = false;
 
   today = new Date();
 
@@ -43,7 +43,6 @@ export class AddShirtComponent implements OnInit {
   }
   ngOnInit(): void {
     this.shirt.getList().subscribe((response)=> {
-      console.warn(this.inputShirtNumber);
       this.shirts=response;
     });
   }
@@ -53,7 +52,6 @@ export class AddShirtComponent implements OnInit {
       this.addShirtForm.controls[i].markAsDirty();
       this.addShirtForm.controls[i].updateValueAndValidity();
     }
-    console.warn('submited' + this.addShirtForm.value);
     if (this.addShirtForm.valid) {
       this.shirt.addShirt(this.addShirtForm.value).subscribe((result) => {
         this.createMessage('success');
@@ -122,45 +120,6 @@ export class AddShirtComponent implements OnInit {
     return differenceInCalendarDays(current, this.today) < 0;
   };
 
-  // ----- MODAL -----
-  showModal(): void {
-    this.isVisibleSizeTable = true;
-  }
-
-  handleOk(): void {
-    console.log('Button ok clicked!');
-    this.isVisibleSizeTable = false;
-  }
-
-  handleCancel(): void {
-    console.log('Button cancel clicked!');
-    this.isVisibleSizeTable = false;
-  }
-  createCustomButtonModal(): void {
-    const images = [
-      {
-        src: 'https://img.alicdn.com/tfs/TB1g.mWZAL0gK0jSZFtXXXQCXXa-200-200.svg',
-        width: '200px',
-        height: '200px',
-        alt: 'ng-zorro'
-      },
-    ];
-    const test = 'huy';
-    const modal: NzModalRef = this.modal.create({
-      nzTitle: 'Bảng size áo bóng đá Fc.Hunters',
-      nzContent: test,
-
-      nzFooter: [
-        {
-          label: 'Close',
-          type: 'primary',
-          shape: 'round',
-          onClick: () => modal.destroy()
-        },
-      ]
-    });
-  }
-
   onClickWatchSizeTable() {
     const images = [
       {
@@ -171,6 +130,29 @@ export class AddShirtComponent implements OnInit {
       },
     ];
     this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+  }
+
+  // --------- MODAL PAY METHOD ---------
+  handleCancel(): void {
+    this.isVisiblePayMethod = false;
+  }
+
+  showModal(): void {
+    this.isVisiblePayMethod = true;
+  }
+
+  copyMessage(val: string){
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = val;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
   }
 
 }

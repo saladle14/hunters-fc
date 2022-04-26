@@ -1,0 +1,13 @@
+<nz-pagination
+  class="float-right mr-2"
+  [(nzPageSize)]="pageSize"
+  [nzSize]="size"
+  [(nzPageIndex)]="pageIndex"
+  (nzPageIndexChange)="nzPageIndexChange($event)"
+  [nzShowTotal]="totalTemplate"
+  [nzTotal]="total"
+>
+</nz-pagination>
+<ng-template #totalTemplate let-total>
+  {{ pageSize * (pageIndex - 1) + 1 }}-{{ pageSize * pageIndex > total ? total : pageSize * pageIndex }} / {{ total }}
+</ng-template>

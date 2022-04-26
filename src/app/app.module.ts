@@ -1,3 +1,6 @@
+import { LoginComponent } from './routes/components/login/login.component';
+import { ShirtDemoComponent } from './shirt-demo/shirt-demo.component';
+import { PaginationComponent } from './routes/components/pagination/pagination.component';
 import { AddShirtComponent } from './add-shirt/add-shirt.component';
 import { ListShirtsComponent } from './list-shirts/list-shirts.component';
 import { FooterComponent } from './footer/footer.component';
@@ -23,6 +26,9 @@ registerLocaleData(en);
     ListShirtsComponent,
     AddShirtComponent,
     FooterComponent,
+    ShirtDemoComponent,
+    LoginComponent,
+    PaginationComponent,
   ],
   imports: [
     BrowserModule,

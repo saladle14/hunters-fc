@@ -33,8 +33,17 @@
               Danh sách làm áo
             </a>
           </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="shirt">
+              <i nz-icon nzType="tag" nzTheme="outline"></i>
+              Mẫu áo 2022
+            </a>
+          </li>
         </ul>
       </li>
+      <a routerLink="login">
+        <li nz-submenu nzTitle="Đăng nhập" nzIcon="car"></li>
+      </a>
       <li nz-submenu nzTitle="Danh sách cầu thủ" nzIcon="team">
         <ul>
           <li nz-menu-item>Đang phát triển</li>
@@ -61,6 +70,11 @@
       </nz-breadcrumb>
       <div class="inner-content"><router-outlet></router-outlet></div>
     </nz-content>
-    <nz-footer>Copyright ©2022 Implement By <a href="https://www.facebook.com/groups/1807551722792283" target="_blank">Hunters</a></nz-footer>
+    <nz-footer
+      >Copyright ©2022 Implement By
+      <a href="https://www.facebook.com/groups/1807551722792283" target="_blank"
+        >Hunters</a
+      ></nz-footer
+    >
   </nz-layout>
 </nz-layout>

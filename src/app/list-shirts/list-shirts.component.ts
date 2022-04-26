@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListShirtsComponent implements OnInit {
   shirts :any;
+  isLoading = false;
 
   constructor(private shirt: ShirtService) { }
 

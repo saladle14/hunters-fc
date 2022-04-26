@@ -81,6 +81,8 @@
     <nz-form-control [nzSm]="8" [nzXs]="24" [nzSpan]="8">
       <nz-date-picker formControlName="payDate" [nzDisabledDate]="disabledDate" nzPlaceHolder="Chọn ngày" ></nz-date-picker>
     </nz-form-control>
+    <a class="checkShirtNum" (click)="showModal()"
+      >Thông tin chuyển khoản</a>
   </nz-form-item>
   <nz-form-item>
     <nz-form-control [nzOffset]="7" [nzSpan]="12">
@@ -89,3 +91,25 @@
   </nz-form-item>
 </form>
 
+<nz-modal [(nzVisible)]="isVisiblePayMethod" nzTitle="Thông tin chuyển khoản" (nzOnCancel)="handleCancel()">
+  <div *nzModalContent>
+    <div>
+      <p>Số tiền: <b>170.000 VNĐ</b></p>
+      <p>Nội dung chuyển khoản: vd: <b>Duc Huy chuyen tien ao</b></p>
+    </div>
+    <div nz-row>
+      <div nz-col nzSpan="12">
+        <h3>Tài khoản ngân hàng</h3>
+        <p>Ngân hàng Vietinbank<br>STK: <b>104870242476</b><button nz-button nzType="default" nzShape="circle" (click)="copyMessage('104870242476')"><i nz-icon nzType="copy"></i></button><br>TÊN: LÊ ĐỨC HUY</p>
+      </div>
+      <div nz-col nzSpan="12">
+        <h3>Ví điện tử</h3>
+        <p>Viettel Money - Momo - Zalo Pay<br>SDT: <b>0385234531</b><button nz-button nzType="default" nzShape="circle" (click)="copyMessage('0385234531')"><i nz-icon nzType="copy"></i></button><br>TÊN: LÊ ĐỨC HUY</p>
+      </div>
+
+    </div>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="primary" (click)="handleCancel()">OK</button>
+  </div>
+</nz-modal>

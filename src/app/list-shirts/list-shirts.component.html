@@ -1,4 +1,4 @@
-<nz-table #basicTable [nzData]="shirts">
+<nz-table #dynamicTable [nzData]="shirts" [nzLoading]="isLoading">
   <thead>
     <tr>
       <th>STT</th>
@@ -10,8 +10,9 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of basicTable.data; let i = index">
-      <td>{{ i + 1 }}</td>
+    <tr *ngFor="let data of dynamicTable.data; let i = index">
+      <!-- <td>{{ i + 1 }}</td> -->
+      <td>{{ data.ud }}</td>
       <td>{{ data.userName }}</td>
       <td>{{ data.id }}</td>
       <td>{{ data.shirtSize }}</td>
@@ -22,3 +23,13 @@
     </tr>
   </tbody>
 </nz-table>
+
+<ng-template #footer>
+  <div class="pb-2 pl-3" nz-row>
+    <div nz-col nzSpan="12"></div>
+    <div nz-col nzSpan="11">
+      <app-pagination [pageSize]="request.size" [pageIndex]="request.page" [total]="total" (pageIndexChange)="nzPageIndexChange($event)">
+      </app-pagination>
+    </div>
+  </div>
+</ng-template>
