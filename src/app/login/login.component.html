@@ -1,18 +1,18 @@
 <p>login works!</p>
 <div nz-row>
   <div nz-col nzSpan="12" nzOffset="7">
-    <form nz-form [formGroup]="loginForm" class="login-form" (ngSubmit)="submitForm()">
+    <form nz-form [formGroup]="loginForm" class="login-form" (ngSubmit)="login()">
       <nz-form-item>
         <nz-form-control nzErrorTip="Please input your username!">
           <nz-input-group nzPrefixIcon="user">
-            <input type="text" nz-input formControlName="userName" placeholder="Username" />
+            <input type="email" nz-input formControlName="userName" placeholder="Username/Email" value=" " [(ngModel)]="log_email"/>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-control nzErrorTip="Please input your Password!">
           <nz-input-group nzPrefixIcon="lock">
-            <input type="password" nz-input formControlName="password" placeholder="Password" />
+            <input type="password" nz-input formControlName="password" placeholder="Password" [(ngModel)]="log_pw" (keyup.enter)="login()"/>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
@@ -31,3 +31,4 @@
     </form>
   </div>
 </div>
+
