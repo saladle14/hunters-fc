@@ -1,4 +1,4 @@
-import { ShirtService } from './../shirt.service';
+import { ShirtService } from '../services/shirt/shirt.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';

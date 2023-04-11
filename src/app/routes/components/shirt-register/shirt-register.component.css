@@ -1,0 +1,82 @@
+.container {
+  margin: 12px;
+}
+
+.checkShirtNum {
+  line-height: 32px;
+  justify-content: center;
+  margin: 0 14px;
+  /* padding-left: 16px; */
+}
+
+h2 {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.qr-code {
+  max-width: 60%;
+}
+
+.payment-order {
+  color: #fff;
+  border-radius: 25px;
+  max-width: 50%;
+  margin: auto;
+}
+
+.payment-order--vietinbank {
+  background-color: #00548b;
+}
+
+.payment-order--momo {
+  background-color: #a40067;
+}
+
+.payment-order--cash {
+  background-color: #aed8b8;
+}
+
+.shirt-background img {
+  max-width: 100%;
+}
+
+.shirt-background .shirt__info {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently */
+}
+
+.shirt-background .shirt__name {
+  top: 20%;
+  font-size: 16px;
+}
+
+.shirt-background .shirt__number {
+  top: 50%;
+  font-size: 60px;
+}
+
+/* --------RESPONSIVE--------- */
+
+@media (min-width: 47em) {
+  .news {
+    display: none;
+  }
+}
+
+@media (max-width: 47em) {
+  .shirt-background .shirt__name {
+    font-size: 4px;
+  }
+
+  .shirt-background .shirt__number {
+    font-size: 20px;
+  }
+}

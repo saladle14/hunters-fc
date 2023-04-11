@@ -1,0 +1,51 @@
+
+.container {
+  margin-top: 20px;
+  max-width: 1200px;
+  margin: auto;
+  /* background-color: red; */
+}
+
+.fixture-tab-body {
+  /* max-width: 1200px; */
+}
+
+.fixture-list {
+  width: 800px;
+}
+
+.fixture__body:hover {
+  background-color: #eee;
+}
+
+.match-result {
+  text-align: center;
+}
+
+.team-logo {
+  margin: 0 10px;
+}
+
+.match-detail {
+  margin-left: 70px;
+  text-align: center;
+}
+
+.fixture__time {
+  background-color: #ddd;
+  padding: 10px;
+  margin-bottom: 0  ;
+}
+
+.match-result__score {
+  background-color: #000;
+  color: #fff;
+  border-radius: 15px;
+  padding: 5px;
+}
+
+@media (max-width: 47em) {
+  .fixture-container {
+    width: auto;
+  }
+}

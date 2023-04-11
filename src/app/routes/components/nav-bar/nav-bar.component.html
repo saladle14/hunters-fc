@@ -1,0 +1,27 @@
+<div class="header" *ngIf="showMenu">
+  <div class="nav">
+    <ul class="nav-list">
+      <li class="nav-item"><img src="https://i.postimg.cc/Z5wQKJmh/fchunters.png" alt="Logo" class="nav__logo"></li>
+      <li class="nav-item">
+        <a href=""><i class="fa-solid fa-house"></i>Trang chủ</a>
+      </li>
+      <li class="nav-item">Nav 2</li>
+      <li class="nav-item">Nav 3</li>
+    </ul>
+    <ul class="nav-list">
+      <li class="nav-item avatar">
+        <img src="https://scontent.fhan5-7.fna.fbcdn.net/v/t1.6435-9/49271337_2318600335038588_8426942601751429120_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=-atUzK1CEioAX8hf6GW&_nc_ht=scontent.fhan5-7.fna&oh=00_AT_D1-rV3UpzoYcwPPi7TKcT2_bmqcTZTYuNA8fd2ZvAFg&oe=62C139EE" alt="Avatar" class="avatar__img">
+        {{authS}}
+        <i class="fa-solid fa-caret-down"></i>
+        <ul>
+          <li><a href=""><i class="fa-solid fa-user"></i>Thông tin tài khoản</a></li>
+          <li><a href=""><i class="fa-solid fa-cart-shopping"></i>Giỏ hàng của tôi</a></li>
+          <li><a routerLink="login"><i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</a></li>
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a><i class="fa-solid fa-cart-shopping"></i>Giỏ hàng</a>
+      </li>
+    </ul>
+  </div>
+</div>

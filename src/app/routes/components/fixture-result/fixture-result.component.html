@@ -1,0 +1,62 @@
+<div class="fixture-container">
+  <!-- <div class="league-option">
+
+  </div>
+  <div class="league-result"></div> -->
+  <nz-tabset nzCentered>
+    <nz-tab *ngFor="let tab of tabs" [nzTitle]="titleTemplate">
+      <ng-template #titleTemplate>
+        <span nz-icon [nzType]="tab.icon"></span>
+        {{ tab.name }}
+      </ng-template>
+      <div class="fixture-tab-body">
+        <div class="fixture-list" *ngFor="let match of listMatches">
+          <div class="fixture__header">
+            <p class="fixture__time">{{ match.time }} - {{ match.league }}</p>
+          </div>
+          <div class="fixture__body">
+            <nz-collapse nzGhost>
+              <nz-collapse-panel
+                [nzHeader]="collapseHeaderTemplate"
+                [nzActive]="match.matchActive"
+                [nzDisabled]="match.matchDisabled"
+              >
+                <ng-template #collapseHeaderTemplate>
+                  <div class="match-result">
+                    <span>{{ match.team1 }}</span>
+                    <img
+                      nz-image
+                      width="30px"
+                      height="30px"
+                      [nzSrc]="match.logo1"
+                      alt=""
+                      class="team-logo"
+                    />
+
+                    <span class="match-result__score">
+                      {{ match.goal1 }} - {{ match.goal2 }}
+                    </span>
+                    <img
+                      nz-image
+                      width="30px"
+                      height="30px"
+                      [nzSrc]="match.logo2"
+                      alt=""
+                      class="team-logo"
+                    />
+                    <span>{{ match.team2 }}</span>
+                  </div>
+                </ng-template>
+                <div style="margin: 0" class="match-detail">
+                  <div class="match-score-list"></div>
+                  {{ match.stadium }}
+                </div>
+              </nz-collapse-panel>
+            </nz-collapse>
+          </div>
+        </div>
+        <div class="fixture-navbar"></div>
+      </div>
+    </nz-tab>
+  </nz-tabset>
+</div>

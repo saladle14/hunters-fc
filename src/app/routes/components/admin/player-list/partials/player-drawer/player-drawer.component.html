@@ -1,0 +1,13 @@
+<nz-drawer
+      [nzClosable]="false"
+      [nzVisible]="isVisibleDrawer"
+      nzPlacement="right"
+      nzTitle="Basic Drawer"
+      (nzOnClose)="closeDrawer()"
+    >
+      <ng-container *nzDrawerContent>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </ng-container>
+    </nz-drawer>
