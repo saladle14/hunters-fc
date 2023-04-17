@@ -1,7 +1,8 @@
 <button nz-button nzType="primary"><i class="fas fa-user-plus mr-6"></i>Thêm cầu thủ</button>
-<nz-table #basicTable [nzData]="listOfUser">
+<nz-table #basicTable [nzData]="listOfUser" [nzScroll]="{ y: '400px' }">
   <thead>
     <tr>
+      <th nzWidth="5%" nzAlign="center">STT</th>
       <th>Tên</th>
       <th>Age</th>
       <th>Address</th>
@@ -9,7 +10,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of basicTable.data">
+    <tr *ngFor="let data of basicTable.data; let i = index">
+      <td nzAlign="center">{{i + 1}}</td>
       <td>
         <img [src]="data.avatar" alt="avatar" height="35" width="35">
         {{data.fullName}}</td>

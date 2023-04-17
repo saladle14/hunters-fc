@@ -6,6 +6,7 @@ import {
   NzContextMenuService,
   NzDropdownMenuComponent,
 } from 'ng-zorro-antd/dropdown';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-list-match',
@@ -19,11 +20,14 @@ export class ListMatchComponent implements OnInit {
   allUsers: any;
   currentMatch: any;
   visible = false;
+  thisSaturday: any;
+  thisSunday: any;
 
   constructor(
     private matchService: MatchService,
     private userService: UserService,
-    private nzContextMenuService: NzContextMenuService
+    private nzContextMenuService: NzContextMenuService,
+    private nzMessageService: NzMessageService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -97,7 +101,7 @@ export class ListMatchComponent implements OnInit {
     debugger;
   }
 
-  copyMessage(val: string){
+  copyMessage(val: string) {
     const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
     selBox.style.left = '0';
@@ -109,5 +113,50 @@ export class ListMatchComponent implements OnInit {
     selBox.select();
     document.execCommand('copy');
     document.body.removeChild(selBox);
+  }
+
+  buildMatchModel() {
+    const matchModel = {
+      name: 'Trận đấu QM-',
+      day: null,
+      stadium: 'SVĐ Vệ An',
+      note: null,
+      isKickedOff: false,
+    };
+    return matchModel;
+  }
+
+  getThisWeekend() {
+    var curr = new Date(); // get current date
+    var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
+    var last = first + 6; // last day is the first day + 6
+
+    // var firstDay = new Date(curr.setDate(first + 7)).toUTCString();
+    // var lastDay = new Date(curr.setDate(last)).toUTCString();
+    var firstDay = new Date(curr.setDate(first + 7));
+    var lastDay = new Date(curr.setDate(last));
+
+    firstDay.setHours(6, 0, 0);
+    lastDay.setHours(20, 30, 0);
+
+    this.thisSunday = firstDay.toUTCString();
+    this.thisSaturday = lastDay.toUTCString();
+  }
+
+  async onClickAutoCreate() {
+    this.getThisWeekend();
+    let match1 = this.buildMatchModel();
+    match1.day = this.thisSaturday;
+    let match2 = { ...match1, day: this.thisSunday, stadium: 'SVĐ Suối Hoa' };
+    await this.matchService
+      .createNewMatch(match1)
+      .toPromise()
+      .then((result) => this.nzMessageService.info('Tạo trận đấu thành công'));
+    await this.matchService
+      .createNewMatch(match2)
+      .toPromise()
+      .then((result) => this.nzMessageService.info('Tạo trận đấu thành công'));
+    await this.fetchData();
+    debugger;
   }
 }
