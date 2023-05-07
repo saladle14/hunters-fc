@@ -39,7 +39,6 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  /* justify-content: space-around; */
 }
 
 .vote-box {
@@ -213,6 +212,10 @@
     right: 15vh;
     height: 3vh;
   }
+
+  .vote-box__list {
+    justify-content: center;
+  }
 }
 
 @keyframes petalFall {
@@ -225,3 +228,4 @@
     transform: translateY(150vh);
   }
 }
+

@@ -14,15 +14,15 @@
   </div> -->
   <div class="vote-zone">
     <h2>Vote lịch đá bóng</h2>
-    <div class="vote-box__list">
-      <div class="news">
-        <div class="news__header">BẢNG TIN</div>
-        <div class="news__body">
-          <strong>Lưu ý: </strong>Sử dụng website trên
-          <strong>máy tính</strong> hoặc màn hình điện thoại
-          <strong>xoay ngang</strong>. Hiện chưa hỗ trợ màn hình điện thoại dọc.
-        </div>
+    <div class="news">
+      <div class="news__header">BẢNG TIN</div>
+      <div class="news__body">
+        <strong>Lưu ý: </strong>Sử dụng website trên
+        <strong>máy tính</strong> hoặc màn hình điện thoại
+        <strong>xoay ngang</strong>. Hiện chưa hỗ trợ màn hình điện thoại dọc.
       </div>
+    </div>
+    <div class="vote-box__list">
       <div class="vote-box__list" *ngFor="let data of allMatches">
         <div class="vote-box">
           <div class="vote-box__header" (click)="onClickDetail(data)">
@@ -32,7 +32,7 @@
                   " " +
                   getTimeWeekDay(data.day) +
                   " " +
-                  (data.day | date: "dd/MM/yyyy") +
+                  (data.day | date : "dd/MM/yyyy") +
                   " " +
                   data.stadium
               }}
@@ -58,7 +58,7 @@
                 </li>
                 <li class="info__item">
                   <i class="fa-solid fa-clock"></i
-                  >{{ data.day | date: "HH:mm" }}
+                  >{{ data.day | date : "HH:mm" }}
                 </li>
                 <li class="info__item">
                   <i class="fa-solid fa-map-location-dot"></i
@@ -67,17 +67,6 @@
               </ul>
             </div>
             <div class="vote-box__member">
-              <!-- <div class="get-list-btn">
-                <button
-                  *ngIf="allListAttendMember[data.id]?.length <= 2"
-                  nz-button
-                  (click)="onClickDetail(data)"
-                  nzType="primary"
-                  nzDanger
-                >
-                  Xem chi tiết
-                </button>
-              </div> -->
               <ul class="member__list">
                 <ng-container
                   *ngFor="
@@ -88,16 +77,6 @@
                   <li class="member__item" *ngIf="i < 3">
                     {{ item.fullName }}
                   </li>
-                  <!-- <li class="member__item" *ngIf="i == 2">
-                    <button
-                      nz-button
-                      (click)="onClickDetail(data)"
-                      nzType="primary"
-                      nzDanger
-                    >
-                      Xem chi tiết
-                    </button>
-                  </li> -->
                 </ng-container>
                 <li class="member__item">
                   <button
@@ -136,21 +115,6 @@
               >
                 <i class="fa-solid fa-futbol"></i>Đá
               </button>
-              <!-- <ng-template #contentAgreeTemplate>
-                <p>
-                  Bạn có chắc chắn vote <strong>CÓ</strong> tham gia trận đấu này
-                </p>
-                <div>
-                  <button
-                    nz-button
-                    nzType="primary"
-                    (click)="updateMatchAttendMember(data)"
-                  >
-                    Xác nhận
-                  </button>
-                  <a nz-button nzType="link">Hủy bỏ</a>
-                </div>
-              </ng-template> -->
               <button
                 class="vote__btn vote__btn--reject"
                 type="button"
