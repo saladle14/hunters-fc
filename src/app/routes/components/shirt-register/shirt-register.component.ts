@@ -1,0 +1,192 @@
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NzImageService } from 'ng-zorro-antd/image';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { ShirtService } from 'src/app/services/shirt/shirt.service';
+
+@Component({
+  selector: 'app-shirt-register',
+  templateUrl: './shirt-register.component.html',
+  styleUrls: ['./shirt-register.component.css'],
+})
+export class ShirtRegisterComponent implements OnInit {
+  @ViewChild('inputElement', { static: false }) inputElement?: ElementRef;
+  title = 'Input a number';
+  isShirtNumberExist: boolean = false;
+  addShirtForm!: FormGroup;
+  inputShirtNumber = '';
+  existedError: boolean = false;
+  listAllShirt: any[] = [];
+  listAllSortedShirt: any;
+  clickedCheck: boolean = false;
+  isDisableSubmit: boolean = false;
+  isVisiblePayMethod = false;
+  currentUser: any;
+
+  today = new Date();
+
+  constructor(
+    private shirt: ShirtService,
+    private fb: FormBuilder,
+    private message: NzMessageService,
+    private modal: NzModalService,
+    private nzImageService: NzImageService
+  ) {
+    this.getCurrentUser();
+  }
+  ngOnInit(): void {
+    this.initForm();
+    this.getListAllShirt();
+    this.patchValueToForm();
+  }
+
+  initForm() {
+    this.addShirtForm = this.fb.group({
+      userName: [null, [Validators.required]],
+      id: [null],
+      shirtSize: [null, [Validators.required]],
+      shirtName: [null, [Validators.required]],
+    });
+  }
+
+  async getListAllShirt() {
+    await this.shirt.getList().subscribe((response) => {
+      this.listAllShirt = response;
+      this.listAllSortedShirt = this.listAllShirt.sort((a, b) =>
+        Number(a.id) < Number(b.id) ? -1 : 1
+      );
+    });
+  }
+
+  getCurrentUser() {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  }
+
+  patchValueToForm() {
+    this.addShirtForm.get('userName').setValue(this.currentUser.fullName);
+    this.addShirtForm.get('userName')?.disable();
+  }
+
+  submitForm() {
+    for (const i in this.addShirtForm.controls) {
+      this.addShirtForm.controls[i].markAsDirty();
+      this.addShirtForm.controls[i].updateValueAndValidity();
+    }
+    this.addShirtForm.value.userName = this.currentUser.fullName;
+    if (
+      this.listAllShirt.some(
+        (e) => e.userName == this.addShirtForm.value.userName
+      )
+    ) {
+      this.createMessage('error', 'Bạn chỉ được gửi đăng ký một lần');
+      return 'a';
+    }
+    if (this.addShirtForm.valid) {
+      this.shirt.addShirt(this.addShirtForm.value).subscribe((result) => {
+        this.createMessage('success', 'Gửi đăng ký thành công');
+        this.addShirtForm.reset({});
+        this.getListAllShirt();
+      });
+    }
+  }
+
+  createMessage(type: string, message: string): void {
+    this.message.create(type, message);
+  }
+
+  clickCheck() {
+    this.clickedCheck = true;
+  }
+
+  checkExistedShirtNumber(id: string) {
+    const existedNum = this.listAllShirt.find(
+      (x: { id: string }) => x.id === id
+    );
+    if (existedNum !== null && existedNum !== undefined) {
+      this.isShirtNumberExist = true;
+      this.isDisableSubmit = true;
+    } else {
+      this.isShirtNumberExist = false;
+      this.isDisableSubmit = false;
+    }
+  }
+
+  onBlur(): void {
+    if (
+      this.inputShirtNumber.charAt(this.inputShirtNumber.length - 1) === '.' ||
+      this.inputShirtNumber === '-'
+    ) {
+      this.checkIsNumber(this.inputShirtNumber.slice(0, -1));
+    }
+  }
+
+  formatNumber(value: string): any {
+    const stringValue = `${value}`;
+    const list = stringValue.split('.');
+    const prefix = list[0].charAt(0) === '-' ? '-' : '';
+    let num = prefix ? list[0].slice(1) : list[0];
+    let result = '';
+    while (num.length > 3) {
+      result = `,${num.slice(-3)}${result}`;
+      num = num.slice(0, num.length - 3);
+    }
+    if (num) {
+      result = num + result;
+    }
+    return `${prefix}${result}${list[1] ? `.${list[1]}` : ''}`;
+  }
+
+  onChangeShirtNumber(value: string): void {
+    this.checkIsNumber(value);
+    this.checkExistedShirtNumber(this.inputShirtNumber);
+  }
+
+  checkIsNumber(value: string): void {
+    const reg = /^-?(0|[1-9][0-9]*)(\.[0-9]*)?$/;
+    if ((!isNaN(+value) && reg.test(value)) || value === '' || value === '-') {
+      this.inputShirtNumber = value;
+    }
+    this.inputElement!.nativeElement.value = this.inputShirtNumber;
+  }
+
+  // disabledDate = (current: Date): boolean => {
+  //   // Can not select days before today and today
+  //   return differenceInCalendarDays(current, this.today) < 0;
+  // };
+
+  onClickWatchSizeTable() {
+    const images = [
+      {
+        src: 'https://i.postimg.cc/2S06mdJW/2469bdbb-2b18-43b3-a9cf-248a72f7cc9c.jpg',
+        width: '300px',
+        height: '300px',
+        alt: 'ng-zorro',
+      },
+    ];
+    this.nzImageService.preview(images, { nzZoom: 1.5, nzRotate: 0 });
+  }
+
+  // --------- MODAL PAY METHOD ---------
+  handleCancel(): void {
+    this.isVisiblePayMethod = false;
+  }
+
+  showModal(): void {
+    this.isVisiblePayMethod = true;
+  }
+
+  copyMessage(val: string) {
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = val;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+  }
+}

@@ -1,0 +1,141 @@
+<!-- <nz-carousel>
+  <div class="slider" nz-carousel-content *ngFor="let item of listImages">
+    <img class="slider-image" [src]="item" alt="Italian Trulli" />
+  </div>
+</nz-carousel>
+<b class="developing">Giao diện đang được phát triển</b> -->
+
+<div class="container">
+  <!-- <div class="decoration">
+    <img src="https://i.postimg.cc/0QLk6pmm/nh-c-nh-o.png" alt="" class="decoration-flower">
+    <img src="https://i.postimg.cc/JnTn3MzL/B-nh-ch-ng.png" alt="" class="decoration-chungCake">
+    <img src="https://i.postimg.cc/76HBQCpj/Bong-Hoa-Dao.png" alt="" class="decoration-petal">
+    <img src="https://i.postimg.cc/76HBQCpj/Bong-Hoa-Dao.png" alt="" class="decoration-petal-2">
+  </div> -->
+  <div class="vote-zone">
+    <h2>Vote lịch đá bóng</h2>
+    <div class="news">
+      <div class="news__header">BẢNG TIN</div>
+      <div class="news__body">
+        <strong>Lưu ý: </strong>Sử dụng website trên
+        <strong>máy tính</strong> hoặc màn hình điện thoại
+        <strong>xoay ngang</strong>. Hiện chưa hỗ trợ màn hình điện thoại dọc.
+      </div>
+    </div>
+    <div class="vote-box__list">
+      <div class="vote-box__list" *ngFor="let data of allMatches">
+        <div class="vote-box">
+          <div class="vote-box__header" (click)="onClickDetail(data)">
+            <b
+              >{{
+                getTimeSection(data.day) +
+                  " " +
+                  getTimeWeekDay(data.day) +
+                  " " +
+                  (data.day | date : "dd/MM/yyyy") +
+                  " " +
+                  data.stadium
+              }}
+            </b>
+          </div>
+
+          <div class="vote-box__body">
+            <div class="vote-box__info">
+              <ul class="info__list">
+                <li
+                  class="info__item"
+                  nz-tooltip
+                  [nzTooltipTitle]="
+                    getMatchStatusTooltipTitle(data?.attendMemberObj.length)
+                  "
+                  [nzTooltipColor]="
+                    getMatchStatusTooltipColor(data?.attendMemberObj.length)
+                  "
+                  nzTooltipPlacement="bottom"
+                >
+                  <i class="fa-solid fa-users"></i
+                  >{{ data?.attendMemberObj.length }}/14
+                </li>
+                <li class="info__item">
+                  <i class="fa-solid fa-clock"></i
+                  >{{ data.day | date : "HH:mm" }}
+                </li>
+                <li class="info__item">
+                  <i class="fa-solid fa-map-location-dot"></i
+                  >{{ data?.stadium }}
+                </li>
+              </ul>
+            </div>
+            <div class="vote-box__member">
+              <ul class="member__list">
+                <ng-container
+                  *ngFor="
+                    let item of allListAttendMember[data.id];
+                    let i = index
+                  "
+                >
+                  <li class="member__item" *ngIf="i < 3">
+                    {{ item.fullName }}
+                  </li>
+                </ng-container>
+                <li class="member__item">
+                  <button
+                    nz-button
+                    (click)="onClickDetail(data)"
+                    nzType="primary"
+                    nzDanger
+                  >
+                    Xem chi tiết
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="vote-box__footer">
+            <div class="quick-vote">
+              Vote nhanh:
+              <p
+                *ngIf="
+                  data.attendMemberObj.includes(currentUser.id) ||
+                  data.denyMemberObj.includes(currentUser.id)
+                "
+              >
+                Bạn đã bình chọn
+              </p>
+              <button
+                class="vote__btn vote__btn--agree"
+                type="button"
+                *ngIf="
+                  data.attendMemberObj.includes(currentUser.id) ||
+                  (!data.attendMemberObj.includes(currentUser.id) &&
+                    !data.denyMemberObj.includes(currentUser.id))
+                "
+                (click)="updateMatchAttendMember(data)"
+              >
+                <i class="fa-solid fa-futbol"></i>Đá
+              </button>
+              <button
+                class="vote__btn vote__btn--reject"
+                type="button"
+                *ngIf="
+                  data.denyMemberObj.includes(currentUser.id) ||
+                  (!data.attendMemberObj.includes(currentUser.id) &&
+                    !data.denyMemberObj.includes(currentUser.id))
+                "
+                (click)="updateMatchDenyMember(data)"
+              >
+                <i class="fa-solid fa-xmark"></i>Không đá
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-home-drawer
+  #homeDrawer
+  (onCloseDrawer)="onCloseDrawer($event)"
+></app-home-drawer>

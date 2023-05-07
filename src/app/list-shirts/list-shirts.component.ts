@@ -1,4 +1,4 @@
-import { ShirtService } from './../shirt.service';
+import { ShirtService } from '../services/shirt/shirt.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -10,7 +10,9 @@ export class ListShirtsComponent implements OnInit {
   shirts :any;
   isLoading = false;
 
-  constructor(private shirt: ShirtService) { }
+  constructor(private shirt: ShirtService) {
+    console.log("test test test");
+  }
 
   ngOnInit(): void {
     this.shirt.getList().subscribe((response)=> {

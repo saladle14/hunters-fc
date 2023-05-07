@@ -6,16 +6,18 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ShirtService {
-  url='https://6245777e6b7ecf057c1e3dc3.mockapi.io/v1/list-shirt/todotasks';
+  baseUrl='https://6245777e6b7ecf057c1e3dc3.mockapi.io/v1/salad-le/todotasks';
+  // baseUrl='http://localhost:3000/register-shirt';
+
 
   constructor(private http: HttpClient) { }
   getList() {
-    return this.http.get(this.url);
+    return this.http.get<any[]>(this.baseUrl);
   }
   addShirt(data: any) {
-    return this.http.post(this.url, data);
+    return this.http.post(this.baseUrl, data);
   }
   getShirtById(id: any): Observable<any> {
-    return this.http.get(`${this.url}/${id}`);
+    return this.http.get(`${this.baseUrl}/${id}`);
   }
 }

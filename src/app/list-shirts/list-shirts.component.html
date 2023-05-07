@@ -6,7 +6,6 @@
       <th>Số áo</th>
       <th>Size áo</th>
       <th>Tên in trên áo</th>
-      <th>Sửa/Xóa</th>
     </tr>
   </thead>
   <tbody>
@@ -17,9 +16,6 @@
       <td>{{ data.id }}</td>
       <td>{{ data.shirtSize }}</td>
       <td>{{ data.shirtName }}</td>
-      <td>
-        <a href="https://www.facebook.com/messages/t/100007335496307" target="_blank">Liên Hệ <i nz-icon nzType="message" nzTheme="outline"></i></a>
-      </td>
     </tr>
   </tbody>
 </nz-table>
@@ -28,8 +24,6 @@
   <div class="pb-2 pl-3" nz-row>
     <div nz-col nzSpan="12"></div>
     <div nz-col nzSpan="11">
-      <app-pagination [pageSize]="request.size" [pageIndex]="request.page" [total]="total" (pageIndexChange)="nzPageIndexChange($event)">
-      </app-pagination>
     </div>
   </div>
 </ng-template>

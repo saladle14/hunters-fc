@@ -1,24 +1,23 @@
+import { NavigationStart, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from './shared/auth.service';
-import { Component } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import en from '@angular/common/locales/en';
+registerLocaleData(en);
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
-  title = 'website';
+export class AppComponent implements OnInit{
+  title = 'saladle';
   isCollapsed = false;
-  log_email:string;
-  log_pw:string;
+  currentUser: any;
 
-  constructor(private auth_service: AuthService) {}
-
-  login(){
-    // Let AuthService process login authentication
-    this.auth_service.login(this.log_email,this.log_pw);
-  }
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.currentUser = this.authService.getCurrentUser();
   }
 }

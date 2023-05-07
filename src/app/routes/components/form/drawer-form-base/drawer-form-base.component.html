@@ -1,0 +1,97 @@
+<nz-drawer
+  [nzClosable]="isClosable"
+  [nzVisible]="isVisible"
+  [nzPlacement]="placement"
+  (nzOnClose)="closeDrawer()"
+  [nzTitle]="title ? title : header"
+  [nzFooter]="footer"
+  [nzCloseIcon]="closeIconTpl ? closeIconTpl : defaultIconTpl"
+  [nzWidth]="width"
+>
+  <ng-container *nzDrawerContent>
+    <ng-content></ng-content>
+  </ng-container>
+</nz-drawer>
+
+<ng-template #defaultIconTpl>
+  <!-- <i class="fas fa-times"></i> -->
+  <!-- <app-button-icon iconClass="fas fa-times" titleTooltip="Đóng">
+  </app-button-icon> -->
+  <i class="fa-solid fa-xmark"></i>
+</ng-template>
+
+<ng-template #header>
+  <div nz-row *ngIf="!isCustomHeader">
+    <div nz-col nzSpan="24">
+      <span class="float-left">
+        <ng-template [ngTemplateOutlet]="extraButtonTpl"></ng-template>
+      </span>
+      <span class="float-right">
+        <app-button-cancel
+          [text]="mode === 'create' || !isEdit ? 'Đóng' : 'Hủy bỏ'"
+          [popConfirm]="false"
+          (onClick)="onViewMode()"
+        ></app-button-cancel>
+        <app-button-delete
+          [loading]="isLoadingButtonDelete"
+          (onClick)="onDelete()"
+          *ngIf="mode !== 'create'"
+        >
+        </app-button-delete>
+        <app-button-edit
+          (onClick)="onEditMode()"
+          *ngIf="!isEdit && mode !== 'create'"
+        ></app-button-edit>
+        <app-button-save
+          [loading]="isLoadingButtonSave"
+          *ngIf="isEdit || mode === 'create'"
+          (onClick)="onClickSave()"
+        >
+        </app-button-save>
+      </span>
+    </div>
+  </div>
+  <div nz-row *ngIf="isCustomHeader">
+    <div nz-col nzSpan="24">
+      <ng-template [ngTemplateOutlet]="customHeaderTpl"></ng-template>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #footer>
+  <div nz-row *ngIf="!isCustomFooter">
+    <div nz-col nzSpan="24">
+      <span class="float-left">
+        <ng-template [ngTemplateOutlet]="extraButtonTpl"></ng-template>
+      </span>
+      <span class="float-right">
+        <app-button-cancel
+          [text]="mode === 'create' || !isEdit ? 'Đóng' : 'Hủy bỏ'"
+          [popConfirm]="false"
+          (onClick)="onViewMode()"
+        ></app-button-cancel>
+        <app-button-delete
+          [loading]="isLoadingButtonDelete"
+          (onClick)="onDelete()"
+          *ngIf="mode !== 'create'"
+        >
+        </app-button-delete>
+        <app-button-edit
+          (onClick)="onEditMode()"
+          *ngIf="!isEdit && mode !== 'create'"
+        ></app-button-edit>
+        <app-button-save
+          [loading]="isLoadingButtonSave"
+          *ngIf="isEdit || mode === 'create'"
+          (onClick)="onClickSave()"
+        >
+        </app-button-save>
+      </span>
+    </div>
+  </div>
+  <div nz-row *ngIf="isCustomFooter">
+    <div nz-col nzSpan="24">
+      <ng-template [ngTemplateOutlet]="customFooterTpl"></ng-template>
+    </div>
+  </div>
+</ng-template>

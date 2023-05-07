@@ -1,0 +1,222 @@
+<div class="container">
+<form
+nz-form
+[formGroup]="addShirtForm"
+(ngSubmit)="submitForm()"
+class="small-border register-form mt-12"
+>
+<h2>Form đăng ký làm áo (170k)</h2>
+<!-- Họ tên -->
+<nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" [nzSpan]="7" nzRequired
+      >Họ Tên</nz-form-label
+    >
+    <nz-form-control
+      [nzSm]="8"
+      [nzXs]="24"
+      [nzSpan]="8"
+      nzErrorTip="Họ tên không được bỏ trống!"
+    >
+      <input nz-input formControlName="userName" placeholder="Vd: Lê Đức Huy" />
+    </nz-form-control>
+  </nz-form-item>
+  <!-- Size áo -->
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" [nzSpan]="7" nzRequired
+      >Size áo</nz-form-label
+    >
+    <nz-form-control
+      [nzSm]="8"
+      [nzXs]="24"
+      [nzSpan]="8"
+      nzErrorTip="Size áo không được bỏ trống!"
+      nzValidatingTip="test..."
+    >
+      <nz-select
+        formControlName="shirtSize"
+        name="select-size"
+        nzPlaceHolder="Chọn kích thước áo"
+      >
+        <nz-option nzValue="S" nzLabel="S"></nz-option>
+        <nz-option nzValue="M" nzLabel="M"></nz-option>
+        <nz-option nzValue="L" nzLabel="L"></nz-option>
+        <nz-option nzValue="XL" nzLabel="XL"></nz-option>
+        <nz-option nzValue="XXL" nzLabel="XXL"></nz-option>
+      </nz-select>
+    </nz-form-control>
+    <a class="checkShirtNum" (click)="onClickWatchSizeTable()">Xem bảng size</a>
+  </nz-form-item>
+  <!-- Số áo -->
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" [nzSpan]="7">Số áo</nz-form-label>
+    <nz-form-control [nzSm]="8" [nzXs]="24" [nzSpan]="8">
+      <input
+        #inputElement
+        nz-input
+        formControlName="id"
+        placeholder="Nếu để trống, bạn sẽ được chọn 1 số áo bất kỳ"
+        [ngModel]="inputShirtNumber"
+        (ngModelChange)="onChangeShirtNumber($event)"
+      />
+    </nz-form-control>
+    <a
+      class="checkShirtNum"
+      (click)="checkExistedShirtNumber(inputShirtNumber); clickCheck()"
+      >Kiểm tra</a
+    >
+    <nz-alert
+      *ngIf="isShirtNumberExist && inputShirtNumber !== ''"
+      nzType="error"
+      nzShowIcon
+      nzMessage="Số áo đã tồn tại"
+    ></nz-alert>
+
+    <nz-alert
+      class="mt-2"
+      *ngIf="
+        !isShirtNumberExist &&
+        inputShirtNumber !== null &&
+        clickedCheck === true
+      "
+      nzType="success"
+      nzShowIcon
+      nzMessage="Số áo rất đẹp và phù hợp với bạn"
+    ></nz-alert>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" [nzSpan]="7" nzRequired
+      >Tên in trên áo</nz-form-label
+    >
+    <nz-form-control [nzSm]="8" [nzXs]="24" [nzSpan]="8">
+      <input
+        nz-input
+        formControlName="shirtName"
+        placeholder="Nhập tên in trên áo"
+      />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control [nzOffset]="7" [nzSpan]="12">
+      <button nz-button nzType="primary" [disabled]="isDisableSubmit">
+        Gửi đăng ký
+      </button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+<!-- <button nz-button nzType="default" (click)="showModal()">
+  Xem danh sách đăng ký
+</button> -->
+
+<div class="list-shirt small-border my-12">
+  <div nz-row>
+    <div nz-col nzSpan="4" *ngFor="let data of listAllSortedShirt">
+      <div class="shirt-background">
+        <img src="https://assets.adidas.com/images/w_940,f_auto,q_auto/9692c0cdcc724ebcbc9fae9700bac2f7_9366/H64055_02_laydown_hover.jpg" alt="">
+
+        <div class="shirt__info shirt__name">{{data.shirtName}}</div>
+        <div class="shirt__info shirt__number">{{data.id}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="payment-method small-border my-12">
+  <h2> Phương thức thanh toán</h2>
+  <div nz-row>
+    <div nz-col nzSpan="6" class="text-center">
+      <div class="payment-order payment-order--vietinbank">
+        1
+      </div>
+      <b>Vietinbank</b>
+      <div>104870242476</div>
+      <img
+        class="qr-code"
+        src="https://i.postimg.cc/DZCZjH3Z/vietinbank-QR.jpg"
+        alt="Vietinbank QR Code"
+      />
+    </div>
+    <div nz-col nzSpan="6" class="text-center">
+      <div class="payment-order payment-order--momo">
+        2
+      </div>
+      <b>Momo</b>
+      <div>0385234531</div>
+      <img
+        class="qr-code"
+        src="https://i.postimg.cc/vHKQMzC1/momoQR.jpg"
+        alt="Vietinbank QR Code"
+      />
+    </div>
+    <div nz-col nzSpan="12" class="text-center">
+      <div class="payment-order payment-order--cash">
+        3
+      </div>
+      <b>Tiền mặt</b>
+      <div class="hidden">1</div>
+      <img
+        class="qr-code"
+        src="https://lamchutaichinh.vn/wp-content/uploads/2022/06/tim-hieu-ve-dong-500k.jpg"
+        alt="Vietinbank QR Code"
+      />
+    </div>
+  </div>
+</div>
+</div>
+<nz-modal
+  [(nzVisible)]="isVisiblePayMethod"
+  nzTitle="Danh sách đăng ký áo"
+  (nzOnCancel)="handleCancel()"
+>
+  <div *nzModalContent>
+    <!-- <div>
+      <p>Số tiền: <b>170.000 VNĐ</b></p>
+      <p>Nội dung chuyển khoản: vd: <b>Duc Huy chuyen tien ao</b></p>
+    </div>
+    <div nz-row>
+      <div nz-col nzSpan="12">
+        <h3>Tài khoản ngân hàng</h3>
+        <p>
+          Ngân hàng Vietinbank<br />STK: <b>104870242476</b
+          ><button
+            nz-button
+            nzType="default"
+            nzShape="circle"
+            (click)="copyMessage('104870242476')"
+          >
+            <i nz-icon nzType="copy"></i></button
+          ><br />TÊN: LÊ ĐỨC HUY
+        </p>
+      </div>
+      <div nz-col nzSpan="12">
+        <h3>Ví điện tử</h3>
+        <p>
+          Viettel Money - Momo - Zalo Pay<br />SDT: <b>0385234531</b
+          ><button
+            nz-button
+            nzType="default"
+            nzShape="circle"
+            (click)="copyMessage('0385234531')"
+          >
+            <i nz-icon nzType="copy"></i></button
+          ><br />TÊN: LÊ ĐỨC HUY
+        </p>
+      </div>
+    </div> -->
+    <div nz-row>
+      <div nz-col nzSpan="4" *ngFor="let data of listAllSortedShirt">
+        <div class="shirt-background">
+          <img src="https://assets.adidas.com/images/w_940,f_auto,q_auto/9692c0cdcc724ebcbc9fae9700bac2f7_9366/H64055_02_laydown_hover.jpg" alt="">
+
+          <div class="shirt__info shirt__name">{{data.shirtName}}</div>
+          <div class="shirt__info shirt__number">{{data.id}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *nzModalFooter>
+    <button nz-button nzType="primary" (click)="handleCancel()">OK</button>
+
+  </div>
+</nz-modal>
