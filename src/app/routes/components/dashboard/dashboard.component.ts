@@ -23,6 +23,9 @@ export class DashboardComponent implements OnInit {
   visibleDetailMatchDrawer = false;
   isDashboard: boolean;
   popoverVisible: boolean = false;
+  // ------ Vote Action ------
+  isVisibleChangeVoteModal: boolean = false;
+  confirmChangeVoteMessage: string = 'loading...';
 
   constructor(
     private authService: AuthService,
@@ -240,4 +243,23 @@ export class DashboardComponent implements OnInit {
       return 'cyan';
     }
   }
+
+  // ------ Vote Action ------
+  onClickChangeVote(isAttending: boolean) {
+    this.isVisibleChangeVoteModal = true;
+    if (isAttending)
+      this.confirmChangeVoteMessage =
+        `Bạn có chắc chắn muốn chuyển vote trận đấu thành KHÔNG ĐÁ?
+        <br>
+        <b>Các đồng đội sẽ buồn đó 🙁 </b>`;
+    else
+      this.confirmChangeVoteMessage =
+        'Bạn có chắc chắn muốn chuyển vote trận đấu thành CÓ ĐÁ?';
+  }
+
+  hideChangeVoteModal() {
+    this.isVisibleChangeVoteModal = false;
+  }
+
+  onConfirmChangeVote() {}
 }
