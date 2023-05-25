@@ -283,6 +283,7 @@ export class DashboardComponent implements OnInit {
       .updateMatch(this.editingMatch.id, editingData)
       .subscribe(async (result) => {
         await this.fetchData();
+        this.isVisibleChangeVoteModal = false;
         this.message.info('Thay đổi vote thành công');
       });
   }
