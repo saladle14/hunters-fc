@@ -29,7 +29,7 @@ interface ColumnItem {
   isShowSort: boolean;
 }
 
-enum VoteStatus {
+export enum VoteStatus {
   Yes = 'Có đá',
   No = 'Không đá',
   NotYet = 'Chưa vote',
