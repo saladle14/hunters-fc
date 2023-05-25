@@ -5,6 +5,7 @@ import { UserService } from './../../../services/user/user.service';
 import { MatchService } from './../../../services/match/match.service';
 import { AuthService } from './../../../shared/auth.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { VoteStatus } from '../admin/list-match/match-detail-drawer/match-detail-drawer.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,6 +24,8 @@ export class DashboardComponent implements OnInit {
   visibleDetailMatchDrawer = false;
   isDashboard: boolean;
   popoverVisible: boolean = false;
+  editingMatch: any;
+  editingToVoteStatus: VoteStatus;
   // ------ Vote Action ------
   isVisibleChangeVoteModal: boolean = false;
   confirmChangeVoteMessage: string = 'loading...';
@@ -245,16 +248,18 @@ export class DashboardComponent implements OnInit {
   }
 
   // ------ Vote Action ------
-  onClickChangeVote(isAttending: boolean) {
+  onClickChangeVote(data: any) {
+    this.editingMatch = data;
+    var isAttending = data.attendMemberObj.includes(this.currentUser.id);
+    this.editingToVoteStatus = isAttending ? VoteStatus.No : VoteStatus.Yes;
     this.isVisibleChangeVoteModal = true;
     if (isAttending)
-      this.confirmChangeVoteMessage =
-        `Bạn có chắc chắn muốn chuyển vote trận đấu thành KHÔNG ĐÁ?
+      this.confirmChangeVoteMessage = `Bạn có chắc chắn muốn chuyển vote trận đấu thành KHÔNG ĐÁ?
         <br>
         <b>Các đồng đội sẽ buồn đó 🙁 </b>`;
     else
       this.confirmChangeVoteMessage =
-        'Bạn có chắc chắn muốn chuyển vote trận đấu thành CÓ ĐÁ?';
+        'Bạn có chắc chắn muốn chuyển vote trận đấu thành CÓ ĐÁ? 😁';
   }
 
   hideChangeVoteModal() {
@@ -262,4 +267,23 @@ export class DashboardComponent implements OnInit {
   }
 
   onConfirmChangeVote() {}
+
+  async changeVote() {
+    var editingData = Object.assign({}, this.editingMatch);
+    if (this.editingToVoteStatus == VoteStatus.Yes) {
+      const index = editingData.denyMemberObj.indexOf(this.currentUser.id, 0);
+      if (index > -1) editingData.denyMemberObj.splice(index, 1);
+      editingData.attendMemberObj.push(this.currentUser.id);
+    } else if (this.editingToVoteStatus == VoteStatus.No) {
+      const index = editingData.attendMemberObj.indexOf(this.currentUser.id, 0);
+      if (index > -1) editingData.attendMemberObj.splice(index, 1);
+      editingData.denyMemberObj.push(this.currentUser.id);
+    }
+    this.matchService
+      .updateMatch(this.editingMatch.id, editingData)
+      .subscribe(async (result) => {
+        await this.fetchData();
+        this.message.info('Thay đổi vote thành công');
+      });
+  }
 }

@@ -133,7 +133,7 @@
                   data.attendMemberObj.includes(currentUser.id) ||
                   data.denyMemberObj.includes(currentUser.id)
                 "
-                (click)="onClickChangeVote(data.attendMemberObj.includes(currentUser.id))"
+                (click)="onClickChangeVote(data)"
                 >Thay đổi</a
               >
             </div>
@@ -149,7 +149,7 @@
   (onCloseDrawer)="onCloseDrawer($event)"
 ></app-home-drawer>
 
-<nz-modal [(nzVisible)]="isVisibleChangeVoteModal" nzTitle="Xác nhận thay đổi vote" (nzOnCancel)="hideChangeVoteModal()" (nzOnOk)="onConfirmChangeVote()" nzCancelText="Hủy" nzOkText="Chuyển">
+<nz-modal [(nzVisible)]="isVisibleChangeVoteModal" nzTitle="Xác nhận thay đổi vote" (nzOnCancel)="hideChangeVoteModal()" (nzOnOk)="changeVote()" nzCancelText="Hủy" nzOkText="Chuyển">
   <ng-container *nzModalContent>
     <div [innerHTML]="confirmChangeVoteMessage"></div>
   </ng-container>
