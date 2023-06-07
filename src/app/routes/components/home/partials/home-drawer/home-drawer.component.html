@@ -4,93 +4,151 @@
   [isEdit]="isEdit"
   [isVisible]="isVisibleDrawer"
   [isCustomFooter]="true"
-  [customFooterTpl]="customFooterTpl"
   (onCloseDrawer)="closeDrawer()"
   [title]="titleDrawer"
   [width]="drawerWidth"
 >
   <div class="drawer__container">
-    <h3>Thông tin trận đấu</h3>
-    <div class="match__detail">
-      <p>Sân: {{ thisMatch?.stadium }}</p>
-      <p>
-        Thời gian:
-        {{
-          (thisMatch?.day | date: "HH:mm") +
-            " " + getTimeSection(thisMatch?.day)
-             +
-            " " +
-            getTimeWeekDay(thisMatch?.day) +
-            " (" +
-            (thisMatch?.day | date: "dd/MM/yyyy") +
-            ")"
-        }}
-      </p>
-      <p>{{ thisMatch?.name }}</p>
-      <p>Ghi chú: {{thisMatch?.note}}</p>
-    </div>
-    <h3>Bình chọn</h3>
-    <div class="quick-vote">
-      <p
-        *ngIf="
-          thisMatch?.attendMemberObj.includes(currentUser.id) ||
-          thisMatch?.denyMemberObj.includes(currentUser.id)
-        "
+    <nz-collapse>
+      <nz-collapse-panel nzHeader="Thông tin trận đấu" nzActive="true"
+        ><div class="match__detail">
+          <p><strong>Sân:</strong> {{ thisMatch?.stadium }}</p>
+          <p>
+            <strong>Thời gian:</strong>
+            {{
+              (thisMatch?.day | date : "HH:mm") +
+                " " +
+                getTimeSection(thisMatch?.day) +
+                " " +
+                getTimeWeekDay(thisMatch?.day) +
+                " (" +
+                (thisMatch?.day | date : "dd/MM/yyyy") +
+                ")"
+            }}
+          </p>
+          <p><strong>Trận đấu:</strong> {{ thisMatch?.name }}</p>
+          <p><strong>Ghi chú:</strong> {{ thisMatch?.note }}</p>
+        </div></nz-collapse-panel
       >
-        Bạn đã bình chọn
-      </p>
-      <button
-        class="vote__btn vote__btn--agree"
-        type="button"
-        *ngIf="
-          thisMatch?.attendMemberObj.includes(currentUser.id) ||
-          (!thisMatch?.attendMemberObj.includes(currentUser.id) &&
-            !thisMatch?.denyMemberObj.includes(currentUser.id))
-        "
-        (click)="updateMatchAttendMember(thisMatch)"
-      >
-        <i class="fa-solid fa-futbol"></i>Đá
-      </button>
-      <!-- <ng-template #contentAgreeTemplate>
-        <p>
-          Bạn có chắc chắn vote <strong>CÓ</strong> tham gia trận đấu này
-        </p>
-        <div>
-          <button
-            nz-button
-            nzType="primary"
-            (click)="updateMatchAttendMember(data)"
+      <nz-collapse-panel nzHeader="Bình chọn">
+        <div class="quick-vote">
+          <p
+            *ngIf="
+              thisMatch?.attendMemberObj.includes(currentUser.id) ||
+              thisMatch?.denyMemberObj.includes(currentUser.id)
+            "
           >
-            Xác nhận
+            Bạn đã bình chọn
+          </p>
+          <button
+            class="vote__btn vote__btn--agree"
+            type="button"
+            *ngIf="
+              thisMatch?.attendMemberObj.includes(currentUser.id) ||
+              (!thisMatch?.attendMemberObj.includes(currentUser.id) &&
+                !thisMatch?.denyMemberObj.includes(currentUser.id))
+            "
+            (click)="updateMatchAttendMember(thisMatch)"
+          >
+            <i class="fa-solid fa-futbol"></i>Đá
           </button>
-          <a nz-button nzType="link">Hủy bỏ</a>
+          <button
+            class="vote__btn vote__btn--reject"
+            type="button"
+            *ngIf="
+              thisMatch?.denyMemberObj.includes(currentUser.id) ||
+              (!thisMatch?.attendMemberObj.includes(currentUser.id) &&
+                !thisMatch?.denyMemberObj.includes(currentUser.id))
+            "
+            (click)="updateMatchDenyMember(thisMatch)"
+          >
+            <i class="fa-solid fa-xmark"></i>Không đá
+          </button>
+          <a
+            href="https://www.facebook.com/messages/t/100007335496307"
+            target="_blank"
+            nz-button
+            nzType="link"
+            *ngIf="
+              thisMatch?.attendMemberObj.includes(currentUser.id) ||
+              thisMatch?.denyMemberObj.includes(currentUser.id)
+            "
+            >Thay đổi bình chọn</a
+          >
         </div>
-      </ng-template> -->
-      <button
-        class="vote__btn vote__btn--reject"
-        type="button"
-        *ngIf="
-          thisMatch?.denyMemberObj.includes(currentUser.id) ||
-          (!thisMatch?.attendMemberObj.includes(currentUser.id) &&
-            !thisMatch?.denyMemberObj.includes(currentUser.id))
-        "
-        (click)="updateMatchDenyMember(thisMatch)"
-      >
-        <i class="fa-solid fa-xmark"></i>Không đá
-      </button>
-      <a
-        href="https://www.facebook.com/messages/t/100007335496307"
-        target="_blank"
-        nz-button
-        nzType="link"
-        *ngIf="
-          thisMatch?.attendMemberObj.includes(currentUser.id) ||
-          thisMatch?.denyMemberObj.includes(currentUser.id)
-        "
-        >Thay đổi bình chọn</a
-      >
-    </div>
-    <h3>Danh sách thành viên</h3>
+      </nz-collapse-panel>
+      <nz-collapse-panel nzHeader="Danh sách thành viên" nzActive="true">
+        <div nz-row class="match__members-list">
+          <div nz-col nzSpan="12" class="match__team-white">
+            <nz-table
+              #basicTable
+              [nzShowPagination]="false"
+              [nzData]="listAttendMembers"
+              [nzPageSize]="20"
+            >
+              <thead>
+                <tr>
+                  <th colspan="2">
+                    Có đá ({{ listAttendMembers.length }} cầu thủ)
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of basicTable.data; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td>
+                    <img [src]="data.avatar" height="30" width="30" />{{
+                      data.fullName
+                    }}
+                  </td>
+                  <!-- <td>
+                  <a>Action 一 {{ data.name }}</a>
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <a>Delete</a>
+                </td> -->
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+
+          <div nz-col nzSpan="12" class="match__team-white">
+            <nz-table
+              #basicDenyTable
+              [nzShowPagination]="false"
+              [nzData]="listDenyMembers"
+              [nzPageSize]="20"
+            >
+              <thead>
+                <tr>
+                  <th colspan="2">
+                    Không đá ({{ listDenyMembers.length }} cầu thủ)
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of basicDenyTable.data; let i = index">
+                  <td>{{ i + 1 }}</td>
+
+                  <td>
+                    <img [src]="data.avatar" height="30" width="30" />{{
+                      data.fullName
+                    }}
+                  </td>
+                  <!-- <td>
+                  <a>Action 一 {{ data.name }}</a>
+                  <nz-divider nzType="vertical"></nz-divider>
+                  <a>Delete</a>
+                </td> -->
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+
+          <div class="match__team-black"></div>
+        </div>
+        </nz-collapse-panel>
+    </nz-collapse>
+    <!-- <h3>Danh sách thành viên</h3>
     <div nz-row class="match__members-list">
       <div nz-col nzSpan="12" class="match__team-white">
         <nz-table
@@ -114,11 +172,6 @@
                   data.fullName
                 }}
               </td>
-              <!-- <td>
-              <a>Action 一 {{ data.name }}</a>
-              <nz-divider nzType="vertical"></nz-divider>
-              <a>Delete</a>
-            </td> -->
             </tr>
           </tbody>
         </nz-table>
@@ -147,78 +200,12 @@
                   data.fullName
                 }}
               </td>
-              <!-- <td>
-              <a>Action 一 {{ data.name }}</a>
-              <nz-divider nzType="vertical"></nz-divider>
-              <a>Delete</a>
-            </td> -->
             </tr>
           </tbody>
         </nz-table>
       </div>
 
       <div class="match__team-black"></div>
-    </div>
+    </div> -->
   </div>
 </app-drawer-form-base>
-
-<ng-template #customFooterTpl>
-  <div nz-row>
-    <!-- Cancel Button -->
-    <div nz-col nzSpan="8">
-      <app-button-cancel
-        [text]="'Đóng'"
-        [popConfirm]="false"
-        (onClick)="closeDrawer()"
-        class="float-left"
-      ></app-button-cancel>
-    </div>
-    <!-- Edit Button -->
-    <div nz-col nzSpan="16">
-      <app-button-edit
-        class="float-right"
-        (onClick)="onChangeEdit(true)"
-        *ngIf="!isEdit && mode !== 'create'"
-      ></app-button-edit>
-      <app-button-base
-        buttonType="primary"
-        iconClass="far fa-copy"
-        text="Nhân bản"
-        class="float-right"
-        *ngIf="!isEdit && mode === 'detail'"
-        (onClick)="onCLickDuplicateRecord()"
-      ></app-button-base>
-      <!-- Save Button -->
-      <app-button-save
-        buttonClass=""
-        buttonType="primary"
-        class="float-right"
-        *ngIf="isEdit || mode === 'create' || mode === 'update'"
-        (onClick)="submitFormDrawer(false)"
-      ></app-button-save>
-      <!-- Save & Continue Button -->
-      <app-button-save
-        [text]="'Lưu và tiếp tục'"
-        class="float-right"
-        [loading]="isLoadingButtonSave"
-        *ngIf="mode === 'create'"
-        (onClick)="submitFormDrawer(true)"
-      ></app-button-save>
-      <!-- Delete Button -->
-      <app-button-delete
-        *ngIf="mode === 'detail' && !isEdit"
-        class="float-right"
-        (onClick)="onClickDelete()"
-      >
-      </app-button-delete>
-      <!-- Cancel Button -->
-      <app-button-cancel
-        *ngIf="isEdit && mode === 'detail'"
-        [text]="'Hủy bỏ'"
-        [popConfirm]="false"
-        (onClick)="onChangeEdit(false)"
-        class="float-right"
-      ></app-button-cancel>
-    </div>
-  </div>
-</ng-template>

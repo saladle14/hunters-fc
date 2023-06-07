@@ -1,8 +1,9 @@
 .match__detail {
-  background-color: #caf5b5;
+  background-color: #fff;
   padding: 12px;
-  border: 1px solid #8ae95b;
+  border: 1px solid #ddd;
   border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .quick-vote {
