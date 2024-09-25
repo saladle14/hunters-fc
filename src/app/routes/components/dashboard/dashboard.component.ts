@@ -6,6 +6,7 @@ import { MatchService } from './../../../services/match/match.service';
 import { AuthService } from './../../../shared/auth.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { VoteStatus } from '../admin/list-match/match-detail-drawer/match-detail-drawer.component';
+import { TelegramService } from 'src/app/services/telegram/telegram.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -34,7 +35,8 @@ export class DashboardComponent implements OnInit {
     private authService: AuthService,
     private matchService: MatchService,
     private userService: UserService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private telegramService: TelegramService
   ) {
     this.currentUser = authService.getCurrentUser();
   }
@@ -156,6 +158,11 @@ export class DashboardComponent implements OnInit {
         .subscribe((result) => {});
       this.createResponseMessage();
     }
+    let message = `<b>${this.currentUser.fullName}</b> đã bình chọn CÓ ĐÁ.%0ASố người đá hiện tại là ${editingData.attendMemberObj.length} người`;
+    this.telegramService
+      .sendMessage('5426764053', message)
+      .toPromise()
+      .then((res) => {});
   }
 
   async updateMatchDenyMember(data: any) {
@@ -170,6 +177,11 @@ export class DashboardComponent implements OnInit {
         .subscribe((result) => {});
       this.createResponseMessage();
     }
+    let message = `<b>${this.currentUser.fullName}</b> đã bình chọn KHÔNG ĐÁ.%0ASố người đá hiện tại là ${editingData.attendMemberObj.length} người`;
+    this.telegramService
+      .sendMessage('5426764053', message)
+      .toPromise()
+      .then((res) => {});
   }
 
   getTimeWeekDay(date: Date): string {
@@ -223,7 +235,6 @@ export class DashboardComponent implements OnInit {
     } else {
       session = 'Chiều';
     }
-
     return session;
   }
 
@@ -269,15 +280,18 @@ export class DashboardComponent implements OnInit {
   onConfirmChangeVote() {}
 
   async changeVote() {
+    let messageStatus = '';
     var editingData = Object.assign({}, this.editingMatch);
     if (this.editingToVoteStatus == VoteStatus.Yes) {
       const index = editingData.denyMemberObj.indexOf(this.currentUser.id, 0);
       if (index > -1) editingData.denyMemberObj.splice(index, 1);
       editingData.attendMemberObj.push(this.currentUser.id);
+      messageStatus = 'Không đá thành CÓ ĐÁ';
     } else if (this.editingToVoteStatus == VoteStatus.No) {
       const index = editingData.attendMemberObj.indexOf(this.currentUser.id, 0);
       if (index > -1) editingData.attendMemberObj.splice(index, 1);
       editingData.denyMemberObj.push(this.currentUser.id);
+      messageStatus = 'Có đá thành KHÔNG ĐÁ';
     }
     this.matchService
       .updateMatch(this.editingMatch.id, editingData)
@@ -286,5 +300,10 @@ export class DashboardComponent implements OnInit {
         this.isVisibleChangeVoteModal = false;
         this.message.info('Thay đổi vote thành công');
       });
+    let message = `<b>${this.currentUser.fullName}</b> đã đổi bình chọn ${messageStatus}.%0ASố người đá hiện tại là ${editingData.attendMemberObj.length} người`;
+    this.telegramService
+      .sendMessage('5426764053', message)
+      .toPromise()
+      .then((res) => {});
   }
 }

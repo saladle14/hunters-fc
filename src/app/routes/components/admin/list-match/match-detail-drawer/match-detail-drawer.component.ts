@@ -65,6 +65,7 @@ export class MatchDetailDrawerComponent implements OnInit {
   data: any;
   mode!: string;
   isEdit: boolean = false;
+  isShowPotential: boolean = false;
 
   titleDrawer: string = '';
   isVisibleDrawer: boolean = false;
@@ -347,5 +348,14 @@ export class MatchDetailDrawerComponent implements OnInit {
 
   onCopyTemplateDay() {
     this.matchDetailForm.controls.day.setValue(this.templateDay);
+  }
+
+  // Show potential player
+  onChangeShowPotential(ev: any) {
+    if(ev) {
+      this.allUsers = this.listAllUser.filter(x => x.potential === true);
+    } else {
+      this.allUsers = this.listAllUser;
+    }
   }
 }

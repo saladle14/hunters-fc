@@ -124,8 +124,11 @@
       </div>
     </div>
     <div class="match-member-layout">
-      <div class="member__header">
+      <div class="member__header d-flex align-items-center">
         <h3>Danh sách tham gia</h3>
+        <div class="show-potential-toggle">
+          <nz-switch [(ngModel)]="isShowPotential" (ngModelChange)="onChangeShowPotential($event)"></nz-switch>
+        </div>
       </div>
       <div class="member__body">
         <nz-table

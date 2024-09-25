@@ -2,6 +2,7 @@ import { DeviceType } from './../../home.component';
 import { AuthService } from './../../../../../shared/auth.service';
 import { MatchService } from './../../../../../services/match/match.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { TelegramService } from 'src/app/services/telegram/telegram.service';
 
 @Component({
   selector: 'app-home-drawer',
@@ -27,7 +28,8 @@ export class HomeDrawerComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private matchService: MatchService
+    private matchService: MatchService,
+    private telegramService: TelegramService
   ) {
     this.currentUser = authService.getCurrentUser();
   }
@@ -92,6 +94,11 @@ export class HomeDrawerComponent implements OnInit {
         .updateMatch(data.id, editingData)
         .subscribe((result) => {});
     }
+    let message = `<b>${this.currentUser.fullName}</b> đã bình chọn CÓ ĐÁ.%0ASố người đá hiện tại là ${editingData.attendMemberObj.length} người`;
+    this.telegramService
+      .sendMessage('5426764053', message)
+      .toPromise()
+      .then((res) => {});
   }
 
   async updateMatchDenyMember(data: any) {
@@ -105,6 +112,11 @@ export class HomeDrawerComponent implements OnInit {
         .updateMatch(data.id, editingData)
         .subscribe((result) => {});
     }
+    let message = `<b>${this.currentUser.fullName}</b> đã bình chọn KHÔNG ĐÁ.%0ASố người đá hiện tại là ${editingData.attendMemberObj.length} người`;
+    this.telegramService
+      .sendMessage('5426764053', message)
+      .toPromise()
+      .then((res) => {});
   }
 
   getTimeWeekDay(date: Date): string {

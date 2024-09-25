@@ -72,7 +72,6 @@ export class ListMatchComponent implements OnInit {
       .toPromise()
       .then((res) => {
         console.log(res);
-        debugger;
 
         this.fetchData();
       });
@@ -98,7 +97,6 @@ export class ListMatchComponent implements OnInit {
     });
     var listJoinMemberCodeString = listJoinMemberCode.join(', ');
     this.copyMessage(listJoinMemberCodeString);
-    debugger;
   }
 
   copyMessage(val: string) {
@@ -157,6 +155,5 @@ export class ListMatchComponent implements OnInit {
       .toPromise()
       .then((result) => this.nzMessageService.info('Tạo trận đấu thành công'));
     await this.fetchData();
-    debugger;
   }
 }

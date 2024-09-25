@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit {
   DeviceType = DeviceType;
 
   mobileNavVisible: boolean = false;
+  limitedUser: any[] = [];
 
   constructor(
     private authService: AuthService,
@@ -63,7 +64,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  async fetchData() {}
+  async fetchData() { }
 
   openDetailMatchDrawer(): void {
     this.visibleDetailMatchDrawer = true;
@@ -73,7 +74,7 @@ export class HomeComponent implements OnInit {
     this.visibleDetailMatchDrawer = false;
   }
 
-  onCloseDrawer(ev: any) {}
+  onCloseDrawer(ev: any) { }
 
   createBasicMessage(): void {
     this.message.info('Chức năng đang phát triển');

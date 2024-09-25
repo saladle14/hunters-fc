@@ -308,12 +308,12 @@ export class AuthService {
         id: '028',
       },
       {
-        userName: 'trinhvu',
-        password: 'trinhvu',
+        userName: 'nguyenminhhieu',
+        password: 'nguyenminhhieu',
         avatar: 'avatar 6',
-        name: 'Vũ',
-        fullName: 'Trịnh Vũ',
-        shirtNum: 49,
+        name: 'Hiếu',
+        fullName: 'Nguyễn Minh Hiếu',
+        shirtNum: 99,
         coin: 0,
         id: '029',
       },
@@ -337,6 +337,36 @@ export class AuthService {
         coin: 0,
         id: '031',
       },
+      {
+        userName: 'nguyentienmanh',
+        password: 'nguyentienmanh',
+        avatar: 'avatar 6',
+        name: 'Mạnh',
+        fullName: 'Nguyễn Tiến Mạnh',
+        shirtNum: 49,
+        coin: 0,
+        id: '032',
+      },
+      {
+        userName: 'phamthanhhung',
+        password: 'phamthanhhung',
+        avatar: 'avatar 6',
+        name: 'Hưng',
+        fullName: 'Phạm Thành Hưng',
+        shirtNum: 49,
+        coin: 0,
+        id: '033',
+      },
+      {
+        userName: 'nguyentrunghieu',
+        password: 'nguyentrunghieu',
+        avatar: 'avatar 6',
+        name: 'Hiếu',
+        fullName: 'Nguyễn Trung Hiếu',
+        shirtNum: 95,
+        coin: 0,
+        id: '034',
+      }
     ];
   }
 
@@ -375,7 +405,7 @@ export class AuthService {
   }
 
   setRole(username) {
-    if (username == 'leduchuy') {
+    if (username == 'leduchuy' || username == 'nguyentrungkien') {
       this.role = Role.Admin;
     } else {
       this.role = Role.User;
