@@ -30,6 +30,7 @@ export class DashboardComponent implements OnInit {
   // ------ Vote Action ------
   isVisibleChangeVoteModal: boolean = false;
   confirmChangeVoteMessage: string = 'loading...';
+  limitedUser: any[] = [];
 
   constructor(
     private authService: AuthService,
